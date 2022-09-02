@@ -1,8 +1,7 @@
 # projetosTrainee
 
-## Version 0.1
-- ### hello-git
-- **say** "hello git"
+## Version 1.2.0
+- ###  Projetos Trainee
 
 ## Comandos Git
 - git **clone** (Clonagem de um Branche/Ramo online)
