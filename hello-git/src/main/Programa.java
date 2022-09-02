@@ -2,6 +2,10 @@ package main;
 
 public class Programa {
     public static void main(String[] args) {
-        System.out.println("hello git");
+        String texto = "hello git";
+        System.out.println(texto);
     }
+
+
+
 }
