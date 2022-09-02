@@ -1,7 +1,5 @@
 # projetosTrainee
 
-Functions that facilitate certain actions. Which needs to cite some parts for it to work.
-
 ## Version 0.1
 - ### hello-git
 - **say** "hello git"
