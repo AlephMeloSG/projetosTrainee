@@ -2,8 +2,27 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/Conexao/Conexao.iml" filepath="$PROJECT_DIR$/Conexao/Conexao.iml" />
+      <module fileurl="file://$PROJECT_DIR$/TesteFamilia/TesteFamilia.iml" filepath="$PROJECT_DIR$/TesteFamilia/TesteFamilia.iml" />
+      <module fileurl="file://$PROJECT_DIR$/TesteJar/TesteJar.iml" filepath="$PROJECT_DIR$/TesteJar/TesteJar.iml" />
+      <module fileurl="file://$PROJECT_DIR$/brinquedo/brinquedo.iml" filepath="$PROJECT_DIR$/brinquedo/brinquedo.iml" />
+      <module fileurl="file://$PROJECT_DIR$/byteBank/byteBank.iml" filepath="$PROJECT_DIR$/byteBank/byteBank.iml" />
+      <module fileurl="file://$PROJECT_DIR$/bytebank-encapsulado/bytebank-encapsulado.iml" filepath="$PROJECT_DIR$/bytebank-encapsulado/bytebank-encapsulado.iml" />
+      <module fileurl="file://$PROJECT_DIR$/bytebank-herdado/bytebank-herdado.iml" filepath="$PROJECT_DIR$/bytebank-herdado/bytebank-herdado.iml" />
+      <module fileurl="file://$PROJECT_DIR$/bytebank-herdado-conta/bytebank-herdado-conta.iml" filepath="$PROJECT_DIR$/bytebank-herdado-conta/bytebank-herdado-conta.iml" />
+      <module fileurl="file://$PROJECT_DIR$/caixa-ferramentas/caixa-ferramentas.iml" filepath="$PROJECT_DIR$/caixa-ferramentas/caixa-ferramentas.iml" />
+      <module fileurl="file://$PROJECT_DIR$/calculadora/calculadora.iml" filepath="$PROJECT_DIR$/calculadora/calculadora.iml" />
+      <module fileurl="file://$PROJECT_DIR$/escola/escola.iml" filepath="$PROJECT_DIR$/escola/escola.iml" />
+      <module fileurl="file://$PROJECT_DIR$/exemplo01/exemplo01.iml" filepath="$PROJECT_DIR$/exemplo01/exemplo01.iml" />
       <module fileurl="file://$PROJECT_DIR$/hello-git/hello-git.iml" filepath="$PROJECT_DIR$/hello-git/hello-git.iml" />
+      <module fileurl="file://$PROJECT_DIR$/herenca/herenca.iml" filepath="$PROJECT_DIR$/herenca/herenca.iml" />
+      <module fileurl="file://$PROJECT_DIR$/java-pilha/java-pilha.iml" filepath="$PROJECT_DIR$/java-pilha/java-pilha.iml" />
+      <module fileurl="file://$PROJECT_DIR$/metados-string/metados-string.iml" filepath="$PROJECT_DIR$/metados-string/metados-string.iml" />
+      <module fileurl="file://$PROJECT_DIR$/microondas/microondas.iml" filepath="$PROJECT_DIR$/microondas/microondas.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/projetosTrainee.iml" filepath="$PROJECT_DIR$/.idea/projetosTrainee.iml" />
+      <module fileurl="file://$PROJECT_DIR$/sintaxe-basica/sintaxe-basica.iml" filepath="$PROJECT_DIR$/sintaxe-basica/sintaxe-basica.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Sorteio/sorteio.iml" filepath="$PROJECT_DIR$/Sorteio/sorteio.iml" />
+      <module fileurl="file://$PROJECT_DIR$/veiculos/veiculos.iml" filepath="$PROJECT_DIR$/veiculos/veiculos.iml" />
     </modules>
   </component>
 </project>

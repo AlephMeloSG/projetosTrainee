@@ -4,7 +4,16 @@
 - ### hello-git
 - **say** "hello git"
 
-
+## Comandos Git
+- git **clone** (Clonagem de um Branche/Ramo online)
+- git **merge** (Mesclagem de branches/ramos)
+- git **checkout -b "nome ramo"** (cria um novo ramo baseado no ramo atual)
+- git **checkout "nome ramo"** (muda o ramo atual)
+- git **pull** (atualiza o ramo)
+- git **branch** (Ramo que se localiza)
+- git **add .** ou **add "nome"**
+- git **commit -m "comentario"**
+- git **push**
 
 
 ```java
@@ -17,5 +26,4 @@ public class Programa {
 }
 
 ```
-
 Developed by Aleph Costa Melo(c) 2020

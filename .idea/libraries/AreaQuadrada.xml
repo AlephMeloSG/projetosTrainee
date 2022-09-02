@@ -1,0 +1,14 @@
+<component name="libraryTable">
+  <library name="AreaQuadrada">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/out/artifacts/area_quadrada/AreaQuadrada.jar!/" />
+      <root url="jar://$PROJECT_DIR$/out/artifacts/caixa_ferramentas_jar/caixa-ferramentas.jar!/" />
+      <root url="jar://$PROJECT_DIR$/out/artifacts/calculadora_jar/calculadora.jar!/" />
+      <root url="jar://$PROJECT_DIR$/out/artifacts/minha-idade/minha-idade.jar!/" />
+      <root url="jar://$PROJECT_DIR$/out/artifacts/SorteadorNumeros/SorteadorNumerico.JAR!/" />
+      <root url="jar://$PROJECT_DIR$/out/artifacts/ToolboxIMC/ToolboxIMC.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
