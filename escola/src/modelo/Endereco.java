@@ -1,3 +1,5 @@
+package modelo;
+
 public class Endereco {
     private static int totalEndereco;
     private String cidade;
@@ -31,7 +33,7 @@ public class Endereco {
         this.cep = cep;
     }
     public String getCep() {
-        return cep;
+        return this.cep;
     }
 
     public void setNumero(String numero){
