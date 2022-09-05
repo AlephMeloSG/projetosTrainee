@@ -18,7 +18,7 @@
 ```java
 package main;
 
-public class Programa {
+public class programaMain.Programa {
     public static void main(String[] args) {
         System.out.println("hello git");
     }

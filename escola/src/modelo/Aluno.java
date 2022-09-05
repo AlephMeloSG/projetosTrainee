@@ -1,15 +1,26 @@
+package modelo;
+
+import exceptions.AlunoException;
+
+import java.util.ArrayList;
+
 public class Aluno {
     private static int totalAlunos;
     private String nome;
     private String cpf;
     private int idade;
-
     private String sexo = "Não citado";
     private Endereco endereco;
+    private Turma turma;
+    private static ArrayList<String> cpfs = new ArrayList<String>();
 
-    private String turma;
+
 
     public Aluno(String nome, String cpf, Endereco endereco) {
+        if (cpfs.contains(cpf)){
+            throw new AlunoException("modelo.Aluno já existente!");
+        }
+        cpfs.add(cpf);
         Aluno.totalAlunos += 1;
         this.endereco = endereco;
         this.nome = nome;
@@ -17,7 +28,7 @@ public class Aluno {
     }
 
     public String getNome() {
-        return nome;
+        return this.nome;
     }
 
     public void setNome(String nome) {
@@ -25,7 +36,7 @@ public class Aluno {
     }
 
     public String getCpf() {
-        return cpf;
+        return this.cpf;
     }
 
     public void setCpf(String cpf) {
@@ -33,7 +44,7 @@ public class Aluno {
     }
 
     public int getIdade() {
-        return idade;
+        return this.idade;
     }
 
     public void setIdade(int idade) {
@@ -41,7 +52,7 @@ public class Aluno {
     }
 
     public Endereco getEndereco() {
-        return endereco;
+        return this.endereco;
     }
 
     public void setEndereco(Endereco endereco) {
@@ -49,11 +60,11 @@ public class Aluno {
     }
 
     public String getTurma() {
-        return this.turma;
+        return this.turma.getNumeroClasse();
     }
 
     public String getSexo() {
-        return sexo;
+        return this.sexo;
     }
 
     public void setSexo(String sexo) {
@@ -64,14 +75,14 @@ public class Aluno {
         return Aluno.totalAlunos;
     }
 
-    public void setTurma(String numeroClasse) {
-        this.turma = numeroClasse;
+    public void setTurma(Turma turma) {
+        this.turma = turma;
     }
 
     @Override
     public String toString() {
         return
-        "Turma: " + getTurma() + "\n" +
+        "modelo.Turma: " + getTurma() + "\n" +
         "Nome: " + getNome() + "\n" +
         "CPF: " + getCpf() + "\n" +
         "Idade: " + getIdade() + "\n" +
