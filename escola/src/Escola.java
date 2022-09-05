@@ -1,9 +1,9 @@
 public class Escola {
     private static int totalEscolas;
     private String nomeEscola;
-    private String diretor;
-    private String horarioEntrada;
-    private String horarioSaida;
+    private String diretor = "não citado";
+    private String horarioEntrada = "não citado";
+    private String horarioSaida = "não citado";
     private Endereco endereco;
 
 
@@ -55,5 +55,14 @@ public class Escola {
     }
     public static int getTotalEscolas(){
         return Escola.totalEscolas;
+    }
+
+    @Override
+    public String toString() {
+        return  "Escola: " + nomeEscola + '\n' +
+                "Diretor: " + diretor + '\n' +
+                "Horario Entrada: " + horarioEntrada + '\n' +
+                "Horario Saida: " + horarioSaida + '\n' +
+                "Endereço: " + getEndereco().getCidade() + " - " + getEndereco().getRua() + " - " + getEndereco().getNumero()+ "\n";
     }
 }

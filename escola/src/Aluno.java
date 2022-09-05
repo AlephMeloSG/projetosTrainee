@@ -4,12 +4,12 @@ public class Aluno {
     private String cpf;
     private int idade;
 
-    private String sexo;
+    private String sexo = "Não citado";
     private Endereco endereco;
 
-    private Turma turma;
+    private String turma;
 
-    public Aluno(String nome, String cpf, Endereco endereco){
+    public Aluno(String nome, String cpf, Endereco endereco) {
         Aluno.totalAlunos += 1;
         this.endereco = endereco;
         this.nome = nome;
@@ -19,6 +19,7 @@ public class Aluno {
     public String getNome() {
         return nome;
     }
+
     public void setNome(String nome) {
         this.nome = nome;
     }
@@ -26,6 +27,7 @@ public class Aluno {
     public String getCpf() {
         return cpf;
     }
+
     public void setCpf(String cpf) {
         this.cpf = cpf;
     }
@@ -33,6 +35,7 @@ public class Aluno {
     public int getIdade() {
         return idade;
     }
+
     public void setIdade(int idade) {
         this.idade = idade;
     }
@@ -40,21 +43,39 @@ public class Aluno {
     public Endereco getEndereco() {
         return endereco;
     }
+
     public void setEndereco(Endereco endereco) {
         this.endereco = endereco;
     }
 
-    public Turma getTurma() {
-        return turma;
+    public String getTurma() {
+        return this.turma;
     }
 
     public String getSexo() {
         return sexo;
     }
+
     public void setSexo(String sexo) {
         this.sexo = sexo;
     }
-    public static int getTotalAlunos(){
+
+    public static int getTotalAlunos() {
         return Aluno.totalAlunos;
+    }
+
+    public void setTurma(String numeroClasse) {
+        this.turma = numeroClasse;
+    }
+
+    @Override
+    public String toString() {
+        return
+        "Turma: " + getTurma() + "\n" +
+        "Nome: " + getNome() + "\n" +
+        "CPF: " + getCpf() + "\n" +
+        "Idade: " + getIdade() + "\n" +
+        "Sexo: " + getSexo() + "\n" +
+        "Endereço: " + getEndereco().getCidade() + " - " + getEndereco().getRua() + " - " + getEndereco().getNumero()+ "\n";
     }
 }

@@ -1,8 +1,13 @@
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+
 public class Turma {
     private static int totalTurmas;
     private String numeroClasse;
 
-    private String aluno = "";
+    private ArrayList<Aluno> alunos = new ArrayList<Aluno>();
+
 
     private String escolaNome;
 
@@ -18,11 +23,29 @@ public class Turma {
     }
 
     public String getListaAlunos() {
-        return this.aluno;
+        String texto = "Alunos: ";
+
+        for (Aluno aluno : alunos){
+            if (alunos.get(alunos.size()-1) == aluno) {
+                texto += aluno.getNome() + ".";
+            } else {
+                texto += aluno.getNome() + ", ";
+            }
+        }
+        return texto;
     }
 
-    public void addAluno(String alunoNome) {
-        this.aluno += alunoNome + "\n";
+    public void alunoInfo(String cpf){
+        for(Aluno aluno: alunos) {
+            if (aluno.getCpf().equals(cpf)){
+                System.out.println(aluno.toString());
+            }
+        }
+    }
+
+    public void addAluno(Aluno aluno) {
+        this.alunos.add(aluno);
+        aluno.setTurma(numeroClasse);
     }
 
     public String getEscolaNome() {
@@ -31,5 +54,12 @@ public class Turma {
 
     public static int getTotalTurmas(){
         return Turma.totalTurmas;
+    }
+
+    @Override
+    public String toString() {
+        return "Turma:  " + numeroClasse + '\n' +
+                getListaAlunos() + '\n' +
+                "Nome da Escola: " + escolaNome + '\n';
     }
 }
