@@ -43,6 +43,9 @@ public class Produto implements Comparable{
         }
         throw new RuntimeException("Produto inexistente");
     }
+    public static int getUltimoCodigo(){
+        return codigoAtual;
+    }
 
     @Override
     public String toString() {

@@ -1,6 +1,7 @@
 package modulo;
 
 import exceptions.AddProdutoException;
+import functions.Funcoes;
 
 import java.util.ArrayList;
 
@@ -44,9 +45,8 @@ public class Carrinho {
                 codigoProduto.add(produto.getCodigo());
             }
         }
-        System.out.println("----------------------------------------------------------");
+        Funcoes.printTimes("-",60);
         System.out.println("Total: " + total);
-        System.out.println();
     }
 
     public ArrayList<Produto> getListaProdutos() {

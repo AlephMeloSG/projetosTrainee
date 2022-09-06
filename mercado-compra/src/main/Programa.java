@@ -36,7 +36,7 @@ public class Programa {
             while (true) {
                 System.out.println();
                 System.out.println("Mercadinho são paulo");
-                System.out.println("----------------------------------------------------------");
+                Funcoes.printTimes("-",60);
                 System.out.println("1.Adicionar Produto");
                 System.out.println("2.Remover Produto");
                 System.out.println("3.Ver Carrinho");
@@ -47,30 +47,30 @@ public class Programa {
 
                 switch (escolha) {
                     case 1: {
-                        System.out.println("----------------------------------------------------------");
+                        Funcoes.printTimes("-",60);
                         Mercado.listaProdutosString();
-                        System.out.println("----------------------------------------------------------");
+                        Funcoes.printTimes("-",60);
 
-                        int codigo = Funcoes.inputInt("Codigo Produto: ",1,Mercado.getListaProdutos().get(Mercado.getListaProdutos().size()-1).getCodigo());
+                        int codigo = Funcoes.inputInt("Codigo Produto: ",1,Produto.getUltimoCodigo());
                         int quantia = Funcoes.inputInt("Quantia: ", 1);
                         carrinho.addProduto(codigo, quantia);
                         System.out.println();
                         break;
                     }
                     case 2: {
-                        System.out.println("----------------------------------------------------------");
+                        Funcoes.printTimes("-",60);
                         carrinho.verCarrinho();
-                        System.out.println("----------------------------------------------------------");
-                        int codigo = Funcoes.inputInt("Codigo Produto: ",1,Mercado.getListaProdutos().get(Mercado.getListaProdutos().size()-1).getCodigo());
+                        Funcoes.printTimes("-",60);
+                        int codigo = Funcoes.inputInt("Codigo Produto: ",1,Produto.getUltimoCodigo());
                         int quantia = Funcoes.inputInt("Quantia: ", 1);
                         carrinho.removerProduto(codigo, quantia);
                         System.out.println();
                         break;
                     }
                     case 3: {
-                        System.out.println("----------------------------------------------------------");
+                        Funcoes.printTimes("-",60);
                         carrinho.verCarrinho();
-                        System.out.println("----------------------------------------------------------");
+                        Funcoes.printTimes("-",60);
                         break;
                     }
                     case 4: {

@@ -1,5 +1,7 @@
 package modulo;
 
+import functions.Funcoes;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -9,12 +11,12 @@ public class Recibo {
     public void mostrarcompra(Carrinho carrinho, Cliente cliente){
         SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
         Date data = new Date();
-        System.out.println("----------------------------------------------------------");
+        Funcoes.printTimes("-",60);
         System.out.println("Compra");
         System.out.println("Data: " + format.format(data));
         System.out.println("Cliente: " + cliente.getNome());
         System.out.println("Cliente numero: " + Cliente.getCodigo());
-        System.out.println("----------------------------------------------------------");
+        Funcoes.printTimes("-",60);
 
         ArrayList<Integer> codigoProduto = new ArrayList<Integer>();
         double total = 0;
@@ -34,8 +36,8 @@ public class Recibo {
                 codigoProduto.add(produto.getCodigo());
             }
         }
-        System.out.println("----------------------------------------------------------");
+        Funcoes.printTimes("-",60);
         System.out.println("Total: " + total);
-        System.out.println("----------------------------------------------------------");
+        Funcoes.printTimes("-",60);
     }
 }

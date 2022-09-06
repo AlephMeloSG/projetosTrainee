@@ -9,5 +9,6 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="caixa-ferramentas" level="project" />
     <orderEntry type="library" name="AreaQuadrada" level="project" />
+    <orderEntry type="library" name="funcoes-criadas" level="project" />
   </component>
 </module>
