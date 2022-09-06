@@ -1,5 +1,7 @@
 package modulo;
 
+import exceptions.AddProdutoException;
+
 import java.util.ArrayList;
 
 public class Carrinho {
@@ -10,13 +12,21 @@ public class Carrinho {
     }
     public void addProduto(int codigo, int quantia){
         for (int i = 1; i <= quantia; i++) {
-            listaProdutos.add(Produto.getProduto(codigo));
+            try {
+                listaProdutos.add(Produto.getProduto(codigo));
+            }catch (Exception e){
+                throw new AddProdutoException("Codigo inexistente");
+            }
         }
     }
 
     public void removerProduto(int codigo, int quantia){
         for (int i = 0; i < quantia; i++) {
-            listaProdutos.remove(Produto.getProduto(codigo));
+            try {
+                listaProdutos.remove(Produto.getProduto(codigo));
+            }catch (Exception e){
+                throw new AddProdutoException("Codigo inexistente");
+            }
         }
     }
 

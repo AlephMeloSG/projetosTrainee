@@ -1,16 +1,16 @@
 package main;
 
+import exceptions.AddProdutoException;
+import exceptions.RemoverProdutoException;
+import exceptions.SelecaoException;
 import modulo.*;
 
-import javax.swing.*;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Programa {
     public static void main(String[] args) {
         int escolha;
-        Integer
 
         Produto produto = new Produto("Carne", 9.50);
         Produto produto2 = new Produto("Arroz", 14.10);
@@ -22,6 +22,7 @@ public class Programa {
             Cliente cliente;
 
             System.out.print("Nome/Codigo:");
+
             String nome = entrada.nextLine();
             if (nome.equals("m64")) {
                 cliente = new Cliente("Aleph Costa Melo", "111.111.111-32");
@@ -46,32 +47,72 @@ public class Programa {
                 System.out.println("4.Finalizar Compra");
                 ;
 
-                System.out.print("Numero correspondente:");
-                escolha = entrada2.nextInt();
+                while (true) {
+                    try {
+                        entrada2 = new Scanner(System.in);
+                        System.out.print("Numero correspondente:");
+                        escolha = entrada2.nextInt();
+                        if (escolha <= 0 || escolha >= 5) {
+                            throw new SelecaoException("Opção inexistente");
+                        }
+                        break;
+                    } catch (InputMismatchException e) {
+                        System.out.println("Valor digitado não é um numero");
+                    } catch (SelecaoException e) {
+                        System.out.println(e.getMessage());
+                    }
+                }
+
 
                 switch (escolha) {
                     case 1: {
                         System.out.println("----------------------------------------------------------");
                         Mercado.listaProdutos();
                         System.out.println("----------------------------------------------------------");
-                        System.out.print("Codigo Produto: ");
-                        int codigo = entrada2.nextInt();
-                        System.out.print("Quantia: ");
-                        int quantia = entrada2.nextInt();
-                        carrinho.addProduto(codigo, quantia);
-                        System.out.println();
+                        while (true) {
+                            try {
+                                entrada2 = new Scanner(System.in);
+                                System.out.print("Codigo Produto: ");
+                                int codigo = entrada2.nextInt();
+                                System.out.print("Quantia: ");
+                                int quantia = entrada2.nextInt();
+                                if (quantia <= 0) {
+                                    throw new AddProdutoException("Valor não pode ser 0/negativo.");
+                                }
+                                carrinho.addProduto(codigo, quantia);
+                                System.out.println();
+                                break;
+                            } catch (InputMismatchException e) {
+                                System.out.println("Valor digitado não é um numero");
+                            } catch (AddProdutoException e) {
+                                System.out.println(e.getMessage());
+                            }
+                        }
                         break;
                     }
                     case 2: {
                         System.out.println("----------------------------------------------------------");
                         carrinho.verCarrinho();
                         System.out.println("----------------------------------------------------------");
-                        System.out.print("Codigo Produto: ");
-                        int codigo = entrada2.nextInt();
-                        System.out.print("Quantia: ");
-                        int quantia = entrada2.nextInt();
-                        carrinho.removerProduto(codigo, quantia);
-                        System.out.println();
+                        while (true) {
+                            try {
+                                entrada2 = new Scanner(System.in);
+                                System.out.print("Codigo Produto: ");
+                                int codigo = entrada2.nextInt();
+                                if (escolha <= 0) {
+                                    throw new RemoverProdutoException("Valor não pode ser 0/negativo.");
+                                }
+                                System.out.print("Quantia: ");
+                                int quantia = entrada2.nextInt();
+                                carrinho.removerProduto(codigo, quantia);
+                                System.out.println();
+                                break;
+                            } catch (RemoverProdutoException e) {
+                                System.out.println(e.getMessage());
+                            } catch (InputMismatchException e) {
+                                System.out.println("Valor digitado não é um numero");
+                            }
+                        }
                         break;
                     }
                     case 3: {
@@ -82,7 +123,7 @@ public class Programa {
                     }
                     case 4: {
                         Recibo recibo = new Recibo();
-                        recibo.mostrarcompra(carrinho,cliente);
+                        recibo.mostrarcompra(carrinho, cliente);
                         break;
                     }
                 }
@@ -95,7 +136,7 @@ public class Programa {
                 System.out.print("Continuar? (S/N): ");
                 continuar = entrada.nextLine().toLowerCase();
             }
-            if (continuar.equals("n")){
+            if (continuar.equals("n")) {
                 break;
             }
         }
