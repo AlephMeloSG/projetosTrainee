@@ -1,34 +1,31 @@
 package main;
 
-import exceptions.AddProdutoException;
-import exceptions.RemoverProdutoException;
-import exceptions.SelecaoException;
 import modulo.*;
-
-import java.util.InputMismatchException;
-import java.util.Scanner;
+import functions.*;
 
 public class Programa {
     public static void main(String[] args) {
         int escolha;
 
         Produto produto = new Produto("Carne", 9.50);
-        Produto produto2 = new Produto("Arroz", 14.10);
-        Produto produto3 = new Produto("Feijao", 12.55);
-        Produto produto4 = new Produto("Tomate", 4.32);
+        Produto produto2 = new Produto("Coco", 6.25);
+        Produto produto3 = new Produto("Arroz", 14.10);
+        Produto produto4 = new Produto("Feijao", 12.55);
+        Produto produto5 = new Produto("Tomate", 5.32);
+        Produto produto6 = new Produto("Lingüiça de Frango", 13.20);
+        Produto produto7 = new Produto("Batata", 7.17);
+        Produto produto8 = new Produto("Alface", 9.55);
+        Produto produto9 = new Produto("Melão", 3.32);
+        Produto produto10 = new Produto("Mamão", 4.32);
 
         while (true) {
-            Scanner entrada = new Scanner(System.in);
             Cliente cliente;
 
-            System.out.print("Nome/Codigo:");
-
-            String nome = entrada.nextLine();
+            String nome = Funcoes.inputStr("Nome/Codigo:");
             if (nome.equals("m64")) {
                 cliente = new Cliente("Aleph Costa Melo", "111.111.111-32");
             } else {
-                System.out.print("CPF:");
-                String cpf = entrada.nextLine();
+                String cpf = Funcoes.inputStr("CPF: ");
                 cliente = new Cliente(nome, cpf);
             }
             System.out.println();
@@ -37,7 +34,6 @@ public class Programa {
             Carrinho carrinho = new Carrinho(cliente);
 
             while (true) {
-                Scanner entrada2 = new Scanner(System.in);
                 System.out.println();
                 System.out.println("Mercadinho são paulo");
                 System.out.println("----------------------------------------------------------");
@@ -46,73 +42,29 @@ public class Programa {
                 System.out.println("3.Ver Carrinho");
                 System.out.println("4.Finalizar Compra");
                 ;
-
-                while (true) {
-                    try {
-                        entrada2 = new Scanner(System.in);
-                        System.out.print("Numero correspondente:");
-                        escolha = entrada2.nextInt();
-                        if (escolha <= 0 || escolha >= 5) {
-                            throw new SelecaoException("Opção inexistente");
-                        }
-                        break;
-                    } catch (InputMismatchException e) {
-                        System.out.println("Valor digitado não é um numero");
-                    } catch (SelecaoException e) {
-                        System.out.println(e.getMessage());
-                    }
-                }
+                escolha = Funcoes.inputInt("Numero correspondente:", 1, 4);
 
 
                 switch (escolha) {
                     case 1: {
                         System.out.println("----------------------------------------------------------");
-                        Mercado.listaProdutos();
+                        Mercado.listaProdutosString();
                         System.out.println("----------------------------------------------------------");
-                        while (true) {
-                            try {
-                                entrada2 = new Scanner(System.in);
-                                System.out.print("Codigo Produto: ");
-                                int codigo = entrada2.nextInt();
-                                System.out.print("Quantia: ");
-                                int quantia = entrada2.nextInt();
-                                if (quantia <= 0) {
-                                    throw new AddProdutoException("Valor não pode ser 0/negativo.");
-                                }
-                                carrinho.addProduto(codigo, quantia);
-                                System.out.println();
-                                break;
-                            } catch (InputMismatchException e) {
-                                System.out.println("Valor digitado não é um numero");
-                            } catch (AddProdutoException e) {
-                                System.out.println(e.getMessage());
-                            }
-                        }
+
+                        int codigo = Funcoes.inputInt("Codigo Produto: ",1,Mercado.getListaProdutos().get(Mercado.getListaProdutos().size()-1).getCodigo());
+                        int quantia = Funcoes.inputInt("Quantia: ", 1);
+                        carrinho.addProduto(codigo, quantia);
+                        System.out.println();
                         break;
                     }
                     case 2: {
                         System.out.println("----------------------------------------------------------");
                         carrinho.verCarrinho();
                         System.out.println("----------------------------------------------------------");
-                        while (true) {
-                            try {
-                                entrada2 = new Scanner(System.in);
-                                System.out.print("Codigo Produto: ");
-                                int codigo = entrada2.nextInt();
-                                if (escolha <= 0) {
-                                    throw new RemoverProdutoException("Valor não pode ser 0/negativo.");
-                                }
-                                System.out.print("Quantia: ");
-                                int quantia = entrada2.nextInt();
-                                carrinho.removerProduto(codigo, quantia);
-                                System.out.println();
-                                break;
-                            } catch (RemoverProdutoException e) {
-                                System.out.println(e.getMessage());
-                            } catch (InputMismatchException e) {
-                                System.out.println("Valor digitado não é um numero");
-                            }
-                        }
+                        int codigo = Funcoes.inputInt("Codigo Produto: ",1,Mercado.getListaProdutos().get(Mercado.getListaProdutos().size()-1).getCodigo());
+                        int quantia = Funcoes.inputInt("Quantia: ", 1);
+                        carrinho.removerProduto(codigo, quantia);
+                        System.out.println();
                         break;
                     }
                     case 3: {
@@ -134,7 +86,7 @@ public class Programa {
             String continuar = "s";
             if (escolha == 4) {
                 System.out.print("Continuar? (S/N): ");
-                continuar = entrada.nextLine().toLowerCase();
+                continuar = Funcoes.inputStr("Continuar? (S/N): ").toLowerCase();
             }
             if (continuar.equals("n")) {
                 break;

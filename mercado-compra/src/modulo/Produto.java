@@ -2,7 +2,7 @@ package modulo;
 
 import java.util.ArrayList;
 
-public class Produto {
+public class Produto implements Comparable{
     private String produtoNome;
     private int codigo;
     static private int codigoAtual;
@@ -50,5 +50,11 @@ public class Produto {
                 "Produto: " + produtoNome + '\n' +
                 "Codigo: " + codigo + "\n" +
                 "Valor: " + valor;
+    }
+
+    @Override
+    public int compareTo(Object produto) {
+        Produto produto2 = (Produto) produto;
+        return this.getCodigo() - (produto2.getCodigo());
     }
 }

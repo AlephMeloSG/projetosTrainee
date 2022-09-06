@@ -8,10 +8,15 @@ public class Mercado {
     public static void addProduto(Produto produto){
         listaProdutos.add(produto);
     }
-    public static void listaProdutos(){
+    public static void listaProdutosString(){
+        listaProdutos.sort(( produto1,  produto2) -> Double.compare(produto1.getValor(),produto2.getValor()));
+        listaProdutos.sort(( produto1,  produto2) -> Character.compare(produto1.getProdutoNome().charAt(0),produto2.getProdutoNome().charAt(0)));
+
         System.out.println("Produtos");
-        for (Produto produto : listaProdutos){
-            System.out.println("Codigo: " + produto.getCodigo() + " Produto: " + produto.getProdutoNome() + " Valor: " + produto.getValor());
-        }
+        listaProdutos.forEach((produto) -> System.out.println("Codigo: " + produto.getCodigo() + " Produto: " + produto.getProdutoNome() + " Valor: " + produto.getValor()));
+    }
+
+    public static ArrayList<Produto> getListaProdutos(){
+        return listaProdutos;
     }
 }
