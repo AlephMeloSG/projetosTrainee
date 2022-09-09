@@ -2,11 +2,15 @@ package functions;
 
 import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils;
 
+import javax.script.ScriptEngine;
+import javax.script.ScriptEngineManager;
+import javax.script.ScriptException;
 import java.io.*;
 import java.nio.BufferOverflowException;
-import java.util.Date;
-import java.util.InputMismatchException;
-import java.util.Scanner;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.util.*;
 
 public class Funcoes {
     public static String paperRockScissors(String player1, String player2) {
@@ -234,26 +238,34 @@ public class Funcoes {
         System.out.println();
     }
 
+    public static String readFile(String file, String encode){
+        Scanner scanner;
+        String texto = "";
+        try {
+            scanner = new Scanner(new File(file),encode);
+            while(scanner.hasNextLine()){
+                texto += scanner.nextLine();
+                texto += "\n";
+            }
+
+        }catch (FileNotFoundException e){
+            System.out.println(e.getMessage());
+        }
+        return texto;
+    }
+
     public static String readFile(String file){
-        // Socket s = new Socket();
-        InputStream fileInputStream; // System.in; // s.getInputStream();
-        InputStreamReader inputStreamReader;
-        BufferedReader bufferedReader;
+        Scanner scanner;
         String linha;
         String texto = "";
         try {
-            fileInputStream = new FileInputStream(file);
-            inputStreamReader = new InputStreamReader(fileInputStream);
-            bufferedReader = new BufferedReader(inputStreamReader);
-
-            linha = bufferedReader.readLine();
-            while (linha != null){
-                texto += linha;
-                linha = bufferedReader.readLine();
+            scanner = new Scanner(new File(file));
+            while(scanner.hasNextLine()){
+                texto += scanner.nextLine();
                 texto += "\n";
             }
-            bufferedReader.close();
-        }catch (IOException e){
+
+        }catch (FileNotFoundException e){
             System.out.println(e.getMessage());
         }
         return texto;
@@ -279,6 +291,50 @@ public class Funcoes {
         String contentFile = readFile(file);
         contentFile += texto;
         reWriteFile(file,contentFile);
+    }
+
+    public static void addWriteFile(String file, String texto, String encode){
+        String contentFile = readFile(file, encode);
+        contentFile += texto;
+        reWriteFile(file,contentFile);
+    }
+
+    public static String readKeyBoard(String textoTitulo){
+        // Socket s = new Socket();
+        InputStream fileInputStream; // System.in; // s.getInputStream();
+        InputStreamReader inputStreamReader;
+        BufferedReader bufferedReader;
+
+        OutputStream outputStream;
+        Writer writer;
+        BufferedWriter bufferedWriter;
+
+        String linha;
+        String texto = "";
+        try {
+            fileInputStream = System.in;
+            inputStreamReader = new InputStreamReader(fileInputStream);
+            bufferedReader = new BufferedReader(inputStreamReader);
+
+            outputStream = System.out; // System.out; // s.getOutputStream();
+            writer = new OutputStreamWriter(outputStream);
+            bufferedWriter = new BufferedWriter(writer);
+
+            System.out.println(textoTitulo);
+            linha = bufferedReader.readLine();
+            while (linha != null && !linha.isEmpty()){
+                bufferedWriter.write(linha);
+                texto += linha;
+                linha = bufferedReader.readLine();
+                if (!linha.isEmpty()) {
+                    texto += "\n";
+                }
+            }
+            bufferedReader.close();
+        }catch (IOException e){
+            System.out.println(e.getMessage());
+        }
+        return texto;
     }
 
     public static String readKeyBoard(){
@@ -307,7 +363,9 @@ public class Funcoes {
                 bufferedWriter.write(linha);
                 texto += linha;
                 linha = bufferedReader.readLine();
-                texto += "\n";
+                if (!linha.isEmpty()) {
+                    texto += "\n";
+                }
             }
             bufferedReader.close();
         }catch (IOException e){
@@ -315,4 +373,65 @@ public class Funcoes {
         }
         return texto;
     }
+
+    public static void rePrintWriter(String file, String texto){
+        // Socket s = new Socket();
+        PrintWriter printWriter;
+        try {
+            printWriter = new PrintWriter(file);
+            // printWriter.write(texto); // nao vejo diferença entre "write" e "print"
+            printWriter.print(texto);
+            printWriter.close();
+        }catch (IOException e){
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public static String dataAtual(String format){
+        SimpleDateFormat formato = new SimpleDateFormat(format);
+        Date data = new Date();
+      return formato.format(data);
+    };
+
+    public static String dataFormat(String data, String format){
+        if (data.isEmpty()){
+            return "Data nao informada";
+        }
+        if (!data.contains("/")){
+            data = data.substring(0,2) + "/" + data.substring(2,4) + "/" + data.substring(4,8);
+        }
+        SimpleDateFormat formato = new SimpleDateFormat(format);
+        try {
+            return formato.format(formato.parse(data));
+
+        }catch (ParseException e){
+            System.out.println("Falha na conversão para data");
+            return data;
+        }
+    }
+
+    public static ArrayList<String> contentSeparation(String texto, String delimitador){
+        Scanner scanner = new Scanner(texto);
+        ArrayList<String>arrayList = new ArrayList<String>();
+        if(!delimitador.equals("|")) {
+            scanner.useDelimiter(delimitador);
+        }else
+            scanner.useDelimiter("\\"+"|");
+        while (scanner.hasNext()){
+            arrayList.add(scanner.next());
+        }
+        return arrayList;
+    }
+
+    public static boolean existFile(String file){
+        Scanner scanner;
+        try {
+            scanner = new Scanner(new File(file));
+            return true;
+        }catch (FileNotFoundException e){
+            System.out.println(e.getMessage());
+            return false;
+        }
+    }
+
 }

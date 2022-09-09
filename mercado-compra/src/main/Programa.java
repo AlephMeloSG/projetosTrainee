@@ -3,6 +3,8 @@ package main;
 import modulo.*;
 import functions.*;
 
+import java.util.Scanner;
+
 public class Programa {
     public static void main(String[] args) {
         int escolha;
