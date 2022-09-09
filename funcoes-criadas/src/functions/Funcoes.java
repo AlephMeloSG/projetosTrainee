@@ -238,6 +238,16 @@ public class Funcoes {
         System.out.println();
     }
 
+    public static boolean existFile(String file){
+        Scanner scanner;
+        try {
+            scanner = new Scanner(new File(file));
+            return true;
+        }catch (FileNotFoundException e){
+            System.out.println(e.getMessage());
+            return false;
+        }
+    }
     public static String readFile(String file, String encode){
         Scanner scanner;
         String texto = "";
@@ -253,7 +263,6 @@ public class Funcoes {
         }
         return texto;
     }
-
     public static String readFile(String file){
         Scanner scanner;
         String linha;
@@ -270,7 +279,6 @@ public class Funcoes {
         }
         return texto;
     }
-
     public static void reWriteFile(String file, String texto){
         // Socket s = new Socket();
         OutputStream outputStream;
@@ -286,19 +294,16 @@ public class Funcoes {
             System.out.println(e.getMessage());
         }
     }
-
     public static void addWriteFile(String file, String texto){
         String contentFile = readFile(file);
         contentFile += texto;
         reWriteFile(file,contentFile);
     }
-
     public static void addWriteFile(String file, String texto, String encode){
         String contentFile = readFile(file, encode);
         contentFile += texto;
         reWriteFile(file,contentFile);
     }
-
     public static String readKeyBoard(String textoTitulo){
         // Socket s = new Socket();
         InputStream fileInputStream; // System.in; // s.getInputStream();
@@ -336,7 +341,6 @@ public class Funcoes {
         }
         return texto;
     }
-
     public static String readKeyBoard(){
         // Socket s = new Socket();
         InputStream fileInputStream; // System.in; // s.getInputStream();
@@ -373,7 +377,6 @@ public class Funcoes {
         }
         return texto;
     }
-
     public static void rePrintWriter(String file, String texto){
         // Socket s = new Socket();
         PrintWriter printWriter;
@@ -392,7 +395,6 @@ public class Funcoes {
         Date data = new Date();
       return formato.format(data);
     };
-
     public static String dataFormat(String data, String format){
         if (data.isEmpty()){
             return "Data nao informada";
@@ -422,7 +424,6 @@ public class Funcoes {
         }
         return arrayList;
     }
-
     public static ArrayList<String> contentSeparation(String texto, String delimitador, int min){
         Scanner scanner = new Scanner(texto);
         ArrayList<String>arrayList = new ArrayList<String>();
@@ -440,16 +441,4 @@ public class Funcoes {
         }
         return arrayList;
     }
-
-    public static boolean existFile(String file){
-        Scanner scanner;
-        try {
-            scanner = new Scanner(new File(file));
-            return true;
-        }catch (FileNotFoundException e){
-            System.out.println(e.getMessage());
-            return false;
-        }
-    }
-
 }
