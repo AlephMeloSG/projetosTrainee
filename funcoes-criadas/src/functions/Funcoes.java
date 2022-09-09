@@ -423,6 +423,24 @@ public class Funcoes {
         return arrayList;
     }
 
+    public static ArrayList<String> contentSeparation(String texto, String delimitador, int min){
+        Scanner scanner = new Scanner(texto);
+        ArrayList<String>arrayList = new ArrayList<String>();
+        if(!delimitador.equals("|")) {
+            scanner.useDelimiter(delimitador);
+        }else
+            scanner.useDelimiter("\\"+"|");
+        while (scanner.hasNext()){
+            arrayList.add(scanner.next());
+        }
+        if (arrayList.size() < min){
+            for(int i = arrayList.size(); i < min; i++){
+                arrayList.add("");
+            }
+        }
+        return arrayList;
+    }
+
     public static boolean existFile(String file){
         Scanner scanner;
         try {

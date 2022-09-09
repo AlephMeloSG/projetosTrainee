@@ -29,7 +29,7 @@ public class ImportaReceita {
                 }
             }
             if (receitaExiste) {
-                NaturezaReceita naturezaReceita = new NaturezaReceita(Funcoes.contentSeparation(linha,"|"));
+                NaturezaReceita naturezaReceita = new NaturezaReceita(Funcoes.contentSeparation(linha,"|",10));
                 naturezaReceitas.add(naturezaReceita);
             }
         }
