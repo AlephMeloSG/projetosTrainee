@@ -1,5 +1,7 @@
 package br.com.alura;
 
+import java.util.*;
+
 public class TestaCursoComAluno {
     public static void main(String[] args) {
         Curso javaColecoes = new Curso("Dominando as coleções do Java","Paulo Silveira");
@@ -14,15 +16,25 @@ public class TestaCursoComAluno {
         Aluno aluno3 = new Aluno("Felipe", 4);
         Aluno aluno4 = new Aluno("Aleph", 5);
         Aluno aluno5 = new Aluno("Passoni", 6);
+        Aluno aluno6 = new Aluno("Missigno", 6);
 
+//        Iterator<Aluno> iterator = javaColecoes.getAlunos().iterator();
+//        while (iterator.hasNext()){
+//            System.out.println(iterator.next());
+//        }
 
         javaColecoes.matricula(aluno);
         javaColecoes.matricula(aluno1);
         javaColecoes.matricula(aluno2);
         javaColecoes.matricula(aluno3);
         javaColecoes.matricula(aluno4);
+        javaColecoes.matricula(aluno5);
+        javaColecoes.matricula(aluno5);
+        javaColecoes.matricula(aluno6);
 
-        javaColecoes.getAlunos().forEach(alunos -> System.out.println(alunos));
-        javaColecoes.estaMatriculado(aluno);
+        System.out.println(javaColecoes.buscaMatricula(3));
+
+//        javaColecoes.getAlunos().forEach(alunos -> System.out.println(alunos));
+//        javaColecoes.estaMatriculado(aluno);
     }
 }
