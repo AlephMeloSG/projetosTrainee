@@ -10,5 +10,6 @@
     <orderEntry type="library" name="caixa-ferramentas" level="project" />
     <orderEntry type="library" name="AreaQuadrada" level="project" />
     <orderEntry type="library" name="funcoes-criadas" level="project" />
+    <orderEntry type="library" name="postgresql-42.5.0" level="project" />
   </component>
 </module>

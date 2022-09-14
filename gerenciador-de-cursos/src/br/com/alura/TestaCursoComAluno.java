@@ -32,7 +32,7 @@ public class TestaCursoComAluno {
         javaColecoes.matricula(aluno5);
         javaColecoes.matricula(aluno6);
 
-        System.out.println(javaColecoes.buscaMatricula(3));
+        System.out.println(javaColecoes.buscaMatricula(6));
 
 //        javaColecoes.getAlunos().forEach(alunos -> System.out.println(alunos));
 //        javaColecoes.estaMatriculado(aluno);

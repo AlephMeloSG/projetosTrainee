@@ -1,18 +1,17 @@
 package functions;
 
-import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils;
-
-import javax.script.ScriptEngine;
-import javax.script.ScriptEngineManager;
-import javax.script.ScriptException;
 import java.io.*;
-import java.nio.BufferOverflowException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.util.*;
 
 public class Funcoes {
+    public static boolean showInfo = false;
+    public static boolean reWriteStringConnectionPG = false;
+    public static String path = repeatString("../",countCurrentPath()) + "configFuncoes";;
     public static String paperRockScissors(String player1, String player2) {
         String resultado = "empate";
         player1 = player1.toLowerCase();
@@ -32,6 +31,12 @@ public class Funcoes {
             resultado = "Jogador2 venceu";
         }
         return resultado;
+    }
+
+    public static int countCurrentPath(){
+        if (contentSeparation(System.getProperty("user.dir"),"/").get(0).equals("home")) {
+            return contentSeparation(System.getProperty("user.dir"), "/").size() - 2;
+        }return contentSeparation(System.getProperty("user.dir"), "/").size();
     }
 
     public static void delay(int milliseconds) {
@@ -238,15 +243,20 @@ public class Funcoes {
         System.out.println();
     }
 
+    public static  String repeatString(String texto, int vezes){
+        String resultado = "";
+        for (int i = 0; i < vezes; i++){
+            resultado += texto;
+        }
+        return resultado;
+    }
+
     public static boolean existFile(String file){
-        Scanner scanner;
-        try {
-            scanner = new Scanner(new File(file));
-            return true;
-        }catch (FileNotFoundException e){
-            System.out.println(e.getMessage());
+        File f = new File(file);
+        if (!f.isFile()) {
             return false;
         }
+        return true;
     }
     public static String readFile(String file, String encode){
         Scanner scanner;
@@ -440,5 +450,84 @@ public class Funcoes {
             }
         }
         return arrayList;
+    }
+    public static Connection postgressConnect(String url, String user, String password){
+        if(!checkDirectory(path)){
+            createDirectory(path);
+        }
+        if(reWriteStringConnectionPG) {
+            reWriteFile(path + "/connection.txt", url + "\n" + user + "\n" + password);
+        }
+        try {
+            Connection connection = DriverManager.getConnection(url,user,password);
+            if (showInfo) {
+                System.out.println("Conexão realizada: " + connection);
+                System.out.println();
+            }
+            return connection;
+        } catch (SQLException e){
+            System.out.println(e.getMessage());
+        }
+        return null;
+    }
+    public static Connection postgressConnect(String url){
+        try {
+            if (!existFile(path + "/connection.txt")){
+                return null;
+            }
+            String result = readFile(path + "/connection.txt");
+            Connection connection = DriverManager.getConnection(url,contentSeparation(result,"\n").get(1), contentSeparation(result,"\n").get(2));
+            if (showInfo) {
+                System.out.println("Conexão realizada: " + connection);
+                System.out.println();
+            }
+            return connection;
+        } catch (SQLException e){
+            System.out.println(e.getMessage());
+        }
+        return null;
+    }
+    public static Connection postgressConnectionFactory(){
+        try {
+            if (!existFile(path + "/connection.txt")){
+                return null;
+            }
+            String result = readFile(path + "/connection.txt");
+            Connection connection = DriverManager.getConnection(contentSeparation(result,"\n").get(0),contentSeparation(result,"\n").get(1), contentSeparation(result,"\n").get(2));
+            if (showInfo) {
+                System.out.println("Conexão realizada: " + connection);
+                System.out.println();
+            }
+            return connection;
+        } catch (SQLException e){
+            System.out.println(e.getMessage());
+        }
+        return null;
+    }
+    public static void postgressDisconnect(Connection connection){
+        try {
+            connection.close();
+            if (showInfo){
+                System.out.println("Conexão Encerrada!");
+                System.out.println();
+            }
+        } catch (SQLException e){
+            System.out.println(e.getMessage());
+        }
+
+    }
+
+    public static boolean checkDirectory(String directory){
+        File theDir = new File(directory);
+        if (!theDir.exists()){
+            return false;
+        }
+        return true;
+    }
+    public static void createDirectory(String directory){
+        File theDir = new File(directory);
+        if (!theDir.exists()){
+            theDir.mkdir();
+        }
     }
 }
