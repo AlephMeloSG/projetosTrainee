@@ -1,4 +1,4 @@
-package lojaVirtual.main;
+package lojaVirtual.view;
 
 import functions.Funcoes;
 import lojaVirtual.modulo.Produto;
@@ -18,17 +18,18 @@ public class TesteConexao {
             Statement statement = connection.createStatement();
             statement.execute("select id,nome,descricao from produto");
             ResultSet resultSet = statement.getResultSet();
-            statement.close();
 
             while (resultSet.next()){
-                produtos.add(new Produto(resultSet.getInt("id"),resultSet.getString("nome"),resultSet.getString("descricao")));
+                Produto produto = new Produto(resultSet.getString("nome"),resultSet.getString("descricao"));
+                produto.setId(resultSet.getInt("id"));
+                produtos.add(produto);
             }
 
             produtos.forEach(produto -> System.out.println(produto));
 
 
-//            connection.close(); // fecha conexao
             resultSet.close();
+            statement.close();
             Funcoes.postgressDisconnect(connection); // Fecha Conexao
 
         } catch (SQLException e){
@@ -38,7 +39,3 @@ public class TesteConexao {
 
     }
 }
-
-//            Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/loja_virtual","postgres", "senha1");
-//            System.out.println("fechando");
-//            connection.close();

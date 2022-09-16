@@ -1,4 +1,4 @@
-package lojaVirtual.main;
+package lojaVirtual.view;
 
 import functions.Funcoes;
 

@@ -1,5 +1,9 @@
 package functions;
 
+import org.postgresql.ds.PGConnectionPoolDataSource;
+import org.postgresql.ds.PGPooledConnection;
+
+import javax.sql.PooledConnection;
 import java.io.*;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -10,7 +14,7 @@ import java.util.*;
 
 public class Funcoes {
     public static boolean showInfo = false;
-    public static boolean reWriteStringConnectionPG = false;
+    public static boolean reWriteStringConnectionPG = true;
     public static String path = repeatString("../",countCurrentPath()) + "configFuncoes";;
     public static String paperRockScissors(String player1, String player2) {
         String resultado = "empate";
@@ -232,6 +236,22 @@ public class Funcoes {
             valor = scanner.nextLine();
             if (valor.contains(contains)){
                 return valor;
+            }
+        }
+    }
+
+    public static Date inputDate(String texto){
+        while (true) {
+            Scanner scanner = new Scanner(System.in);
+            String valor;
+            System.out.print(texto);
+            valor = scanner.nextLine();
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+            try{
+                simpleDateFormat.parse(valor);
+                return simpleDateFormat.parse(valor);
+            } catch (ParseException e) {
+                System.out.println("Valor digitado não é uma data!");
             }
         }
     }
@@ -515,6 +535,51 @@ public class Funcoes {
             System.out.println(e.getMessage());
         }
 
+    }
+
+    public static Connection postgressConnectPool(String url, String user, String password){
+        if(!checkDirectory(path)){
+            createDirectory(path);
+        }
+        if(reWriteStringConnectionPG) {
+            reWriteFile(path + "/connection.txt", url + "\n" + user + "\n" + password);
+        }
+        try {
+            PGConnectionPoolDataSource connection = new PGConnectionPoolDataSource();
+            connection.setURL(url);
+            connection.setUser(user);
+            connection.setPassword(password);
+            Connection connection1 = connection.getConnection();
+            if (showInfo) {
+                System.out.println("Conexão realizada: " + connection1);
+                System.out.println();
+            }
+            return connection1;
+        } catch (SQLException e){
+            System.out.println(e.getMessage());
+        }
+        return null;
+    }
+    public static Connection postgressConnectionFactoryPool(){
+        try {
+            if (!existFile(path + "/connection.txt")){
+                return null;
+            }
+            String result = readFile(path + "/connection.txt");
+            PGConnectionPoolDataSource pgConnectionPoolDataSource = new PGConnectionPoolDataSource();
+            pgConnectionPoolDataSource.setURL(contentSeparation(result,"\n").get(0));
+            pgConnectionPoolDataSource.setUser(contentSeparation(result,"\n").get(1));
+            pgConnectionPoolDataSource.setPassword(contentSeparation(result,"\n").get(2));
+            Connection connection = pgConnectionPoolDataSource.getConnection();
+            if (showInfo) {
+                System.out.println("Conexão realizada: " + connection);
+                System.out.println();
+            }
+            return connection;
+        } catch (SQLException e){
+            System.out.println(e.getMessage());
+        }
+        return null;
     }
 
     public static boolean checkDirectory(String directory){

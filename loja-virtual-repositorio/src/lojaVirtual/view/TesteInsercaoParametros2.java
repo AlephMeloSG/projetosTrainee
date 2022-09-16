@@ -1,7 +1,6 @@
-package lojaVirtual.main;
+package lojaVirtual.view;
 
 import functions.Funcoes;
-import lojaVirtual.modulo.ConnectionFactory;
 
 import java.sql.*;
 
