@@ -5,6 +5,7 @@ import org.postgresql.ds.PGPooledConnection;
 
 import javax.sql.PooledConnection;
 import java.io.*;
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -15,7 +16,7 @@ import java.util.*;
 public class Funcoes {
     public static boolean showInfo = false;
     public static boolean reWriteStringConnectionPG = true;
-    public static String path = repeatString("../",countCurrentPath()) + "configFuncoes";;
+    public static String path = repeatString("../",countCurrentPath()) + "configFuncoes";
     public static String paperRockScissors(String player1, String player2) {
         String resultado = "empate";
         player1 = player1.toLowerCase();
@@ -167,6 +168,60 @@ public class Funcoes {
         return valor;
     }
 
+    public static BigDecimal inputBigDecimal(String texto) {
+        BigDecimal valor;
+        while (true) {
+            try {
+                Scanner scanner = new Scanner(System.in);
+                System.out.print(texto);
+                valor = scanner.nextBigDecimal();
+                break;
+            } catch (InputMismatchException e) {
+                System.out.println("Valor não é um numero!");
+            }
+        }
+
+        return valor;
+    }
+    public static BigDecimal inputBigDecimal(String texto, BigDecimal min) {
+        BigDecimal valor;
+        while (true) {
+            try {
+                Scanner scanner = new Scanner(System.in);
+                System.out.print(texto);
+                valor = scanner.nextBigDecimal();
+                if (valor.compareTo(min) < 0){
+                    throw new RuntimeException("Valor abaixo do permitido! mínimo: " + min);
+                }
+                break;
+            } catch (InputMismatchException e) {
+                System.out.println("Valor não é um numero!");
+            } catch (RuntimeException e) {
+                System.out.println(e.getMessage());
+            }
+        }
+        return valor;
+    }
+    public static BigDecimal inputBigDecimal(String texto, BigDecimal min, BigDecimal max) {
+        BigDecimal valor;
+        while (true) {
+            try {
+                Scanner scanner = new Scanner(System.in);
+                System.out.print(texto);
+                valor = scanner.nextBigDecimal();
+                if (valor.compareTo(min) < 0 || valor.compareTo(max) > 0) {
+                    throw new RuntimeException("Valor não permitido! mínimo: " + min + " máximo: " + max);
+                }
+                break;
+            } catch (InputMismatchException e) {
+                System.out.println("Valor não é um numero!");
+            } catch (RuntimeException e) {
+                System.out.println(e.getMessage());
+            }
+        }
+        return valor;
+    }
+
     public static double inputDouble(String texto) {
         double valor;
         while (true) {
@@ -228,13 +283,36 @@ public class Funcoes {
         valor = scanner.nextLine();
         return valor;
     }
-    public static String inputStr(String texto, String contains) {
+    public static String inputStr(String texto, String containsOrder) {
+        String textoRetorno = null;
+        while (true) {
+            boolean containsAll = false;
+            Scanner scanner = new Scanner(System.in);
+            System.out.print(texto);
+            textoRetorno = scanner.nextLine();
+            if (textoRetorno.contains(containsOrder)) {
+                return textoRetorno;
+            }
+        }
+    }
+    public static String inputStr(String texto, int maxChars) {
         while (true) {
             Scanner scanner = new Scanner(System.in);
             String valor;
             System.out.print(texto);
             valor = scanner.nextLine();
-            if (valor.contains(contains)){
+            if (valor.length() <= maxChars){
+                return valor;
+            }
+        }
+    }
+    public static String inputStr(String texto, int minChars, int maxChars) {
+        while (true) {
+            Scanner scanner = new Scanner(System.in);
+            String valor;
+            System.out.print(texto);
+            valor = scanner.nextLine();
+            if (valor.length() <= maxChars && valor.length() >= minChars){
                 return valor;
             }
         }
