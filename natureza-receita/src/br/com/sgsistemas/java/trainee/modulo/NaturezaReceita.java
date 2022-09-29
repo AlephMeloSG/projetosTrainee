@@ -68,8 +68,8 @@ public class NaturezaReceita {
     public String toString() {
         return "codigo: " + this.getCodigo() + "\n" +
                 "Descricao produto: " + this.getDescProd() + "\n" +
-                "DT Inicial: " + Funcoes.dataFormat(this.getDtIni(), "dd/mm/yyyy") + "\n" +
-                "DT Final: " + Funcoes.dataFormat(getDtFim(), "dd/mm/yyyy") + "\n" +
+                "DT Inicial: " + Funcoes.stringDataFormat(this.getDtIni(), "dd/mm/yyyy") + "\n" +
+                "DT Final: " + Funcoes.stringDataFormat(getDtFim(), "dd/mm/yyyy") + "\n" +
                 "NCM: " + this.getNcm() + "\n" +
                 "NCM EX: " + this.getNcmEx() + "\n" +
                 "EX IPI: " + this.getExIpi() + "\n" +

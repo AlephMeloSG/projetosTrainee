@@ -6,7 +6,7 @@ import java.sql.*;
 
 public class TesteInsercaoParametros2 {
     public static void main(String[] args) throws SQLException {
-        Connection con = Funcoes.postgressConnectionFactory();
+        Connection con = Funcoes.postgressDriverConnectionFactory();
         con.setAutoCommit(false);
         PreparedStatement preparedStatement = con.prepareStatement("insert into produto (nome,descricao) values(?, ?)", Statement.RETURN_GENERATED_KEYS);
         preparedStatement.setString(1,"Mouse");
@@ -19,6 +19,6 @@ public class TesteInsercaoParametros2 {
         while(resultSet.next()){
             System.out.println(resultSet.getInt("id"));
         }
-        Funcoes.postgressDisconnect(con);
+        Funcoes.postgressDriverDisconnect(con);
     }
 }

@@ -10,7 +10,7 @@ import java.util.Set;
 public class TesteComProdutoDAO {
     public static void main(String[] args) {
         Funcoes.showInfo = true;
-        Connection connection = Funcoes.postgressConnectionFactoryPool();
+        Connection connection = Funcoes.postgressDriverConnectionFactoryPool();
 
         ProdutoDao produtoDao = new ProdutoDao(connection);
 
@@ -20,6 +20,6 @@ public class TesteComProdutoDAO {
 
         Produto produto1 = new Produto("Impressora","HPLaserJet1020");
         System.out.println(produtoDao.inserir(produto1));
-        Funcoes.postgressDisconnect(connection);
+        Funcoes.postgressDriverDisconnect(connection);
     }
 }

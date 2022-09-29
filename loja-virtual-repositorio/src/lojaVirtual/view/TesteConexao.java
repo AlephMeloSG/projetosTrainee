@@ -12,8 +12,8 @@ public class TesteConexao {
 
         ArrayList<Produto> produtos = new ArrayList<>();
         Funcoes.showInfo = true;
-        try (Connection connection = Funcoes.postgressConnectionFactory()){
-//            Connection connection = Funcoes.postgressConnect("jdbc:postgresql://localhost:5432/loja_virtual","postgres", "senha1"); // Abre conexao
+        try (Connection connection = Funcoes.postgressDriverConnectionFactory()){
+//            Connection connection = Funcoes.postgressDriverConnect("jdbc:postgresql://localhost:5432/loja_virtual","postgres", "senha1"); // Abre conexao
 
             Statement statement = connection.createStatement();
             statement.execute("select id,nome,descricao from produto");
@@ -30,7 +30,7 @@ public class TesteConexao {
 
             resultSet.close();
             statement.close();
-            Funcoes.postgressDisconnect(connection); // Fecha Conexao
+            Funcoes.postgressDriverDisconnect(connection); // Fecha Conexao
 
         } catch (SQLException e){
             //System.out.println(e.getMessage());

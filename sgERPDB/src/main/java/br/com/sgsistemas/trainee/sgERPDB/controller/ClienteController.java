@@ -44,6 +44,7 @@ public class ClienteController {
         }
         for (Cliente cliente : arrayList) {
             System.out.println(numeracao + "." + cliente.getNome());
+            numeracao++;
         }
         return Funcoes.inputInt("Digite o numero correspondente: ",1, arrayList.size()) - 1;
     }
@@ -61,12 +62,17 @@ public class ClienteController {
                 switch (escolha){
                     case 1:{
                         arrayList = (ArrayList<Cliente>) clienteDao.buscarTodos();
-                        arrayList.forEach(o -> System.out.println(o));
+                        arrayList.forEach(o -> System.out.println(o + "\n"));
                         break;
                     }
                     case 2:{
-                        Cliente cliente = clienteDao.buscarCliente(arrayList.get(escolhaCliente(entityManager)));
-                        System.out.println(cliente);
+                        escolha = escolhaCliente(entityManager);
+                        Cliente cliente = null;
+                        if (escolha > -1) {
+                            cliente = clienteDao.buscarCliente(arrayList.get(escolha));
+                            System.out.println();
+                            System.out.println(cliente);
+                        }
                         break;
                     }
                 }
@@ -93,12 +99,16 @@ public class ClienteController {
             }
             case 3: {
                 int escolha = escolhaCliente(entityManager);
-                ArrayList<Cliente> resultado = (ArrayList<Cliente>) clienteDao.buscarConectados(arrayList.get(escolha).getEndereco());
-                clienteDao.deletar(arrayList.get(escolha));
-                if (resultado.size() < 2) {
-                    enderecoDao.deletar(arrayList.get(escolha).getEndereco());
-                    break;
+                if (escolha > -1) {
+                    ArrayList<Cliente> resultado = (ArrayList<Cliente>) clienteDao.buscarConectados(arrayList.get(escolha).getEndereco());
+                    clienteDao.deletar(arrayList.get(escolha));
+                    System.out.println(arrayList);
+                    arrayList.remove(arrayList.get(escolha));
+                    if (resultado.size() < 2) {
+                        enderecoDao.deletar(arrayList.get(escolha).getEndereco());
+                    }
                 }
+                break;
             }
             case 4: {
                 UF uf = UFController.criaUF(entityManager);

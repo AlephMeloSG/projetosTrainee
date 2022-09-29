@@ -1,48 +1,35 @@
 package functions;
 
-import org.postgresql.ds.PGConnectionPoolDataSource;
-import org.postgresql.ds.PGPooledConnection;
-
-import javax.sql.PooledConnection;
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+import java.io.Writer;
 import java.math.BigDecimal;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.time.Duration;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.InputMismatchException;
+import java.util.List;
+import java.util.Scanner;
 
 public class Funcoes {
     public static boolean showInfo = false;
     public static boolean reWriteStringConnectionPG = true;
     public static String path = repeatString("../",countCurrentPath()) + "configFuncoes";
-    public static String paperRockScissors(String player1, String player2) {
-        String resultado = "empate";
-        player1 = player1.toLowerCase();
-        player2 = player2.toLowerCase();
-
-        if (player1.equals("pedra") && player2.equals("papel")) {
-            resultado = "Jogador2 venceu";
-        } else if (player1.equals("papel") && player2.equals("pedra")) {
-            resultado = "Jogador1 venceu";
-        } else if (player1.equals("pedra") && player2.equals("tesoura")) {
-            resultado = "Jogador1 venceu";
-        } else if (player1.equals("tesoura") && player2.equals("pedra")) {
-            resultado = "Jogador2 venceu";
-        } else if (player1.equals("tesoura") && player2.equals("papel")) {
-            resultado = "Jogador1 venceu";
-        } else if (player1.equals("papel") && player2.equals("tesoura")) {
-            resultado = "Jogador2 venceu";
-        }
-        return resultado;
-    }
-
-    public static int countCurrentPath(){
-        if (contentSeparation(System.getProperty("user.dir"),"/").get(0).equals("home")) {
-            return contentSeparation(System.getProperty("user.dir"), "/").size() - 2;
-        }return contentSeparation(System.getProperty("user.dir"), "/").size();
-    }
 
     public static void delay(int milliseconds) {
         Date start = new Date();
@@ -57,62 +44,6 @@ public class Funcoes {
         }
     }
 
-    public static String mes(int numeroMes) {
-        String mesPalavra;
-        switch (numeroMes) {
-            case 1: {
-                mesPalavra = "Janeiro";
-                break;
-            }
-            case 2: {
-                mesPalavra = "Fevereiro";
-                break;
-            }
-            case 3: {
-                mesPalavra = "Março";
-                break;
-            }
-            case 4: {
-                mesPalavra = "Abril";
-                break;
-            }
-            case 5: {
-                mesPalavra = "Maio";
-                break;
-            }
-            case 6: {
-                mesPalavra = "Junho";
-                break;
-            }
-            case 7: {
-                mesPalavra = "Julho";
-                break;
-            }
-            case 8: {
-                mesPalavra = "Agosto";
-                break;
-            }
-            case 9: {
-                mesPalavra = "Setembro";
-                break;
-            }
-            case 10: {
-                mesPalavra = "Outubro";
-                break;
-            }
-            case 11: {
-                mesPalavra = "Novembro";
-                break;
-            }
-            case 12: {
-                mesPalavra = "Dezembro";
-                break;
-            }
-            default:
-                mesPalavra = "Desconhecido..";
-        }
-        return mesPalavra;
-    }
 
     public static int inputInt(String texto) {
         int valor;
@@ -315,6 +246,9 @@ public class Funcoes {
             if (valor.length() <= maxChars && valor.length() >= minChars){
                 return valor;
             }
+            else {
+                System.out.println("Minimo Characteres; " + minChars + " Maximo de Characteres: " + maxChars);
+            }
         }
     }
 
@@ -333,6 +267,295 @@ public class Funcoes {
             }
         }
     }
+    public static LocalDate inputLocalDate(String texto){
+        while (true) {
+            Scanner scanner = new Scanner(System.in);
+            String valor;
+            System.out.print(texto);
+            valor = scanner.nextLine();
+            DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+            try{
+                simpleDateFormat.parse(valor);
+                return LocalDate.parse(valor,dateTimeFormatter);
+            } catch (ParseException e) {
+                System.out.println("Valor digitado não é uma data!");
+            }
+        }
+    }
+    public static String dataAtual(String format){
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(format);
+        LocalDateTime localDateTime = LocalDateTime.now();
+
+        return localDateTime.format(dateTimeFormatter);
+    };
+    public static String dataAtual(){
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        LocalDateTime localDateTime = LocalDateTime.now();
+
+        return localDateTime.format(dateTimeFormatter);
+    };
+    public static String dataHoraAtual(){
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy, HH:mm:ss");
+        LocalDateTime localDateTime = LocalDateTime.now();
+
+        return localDateTime.format(dateTimeFormatter);
+    };
+    public static String stringDataFormat(String data, String format){
+        if (data.isEmpty()){
+            return "Data nao informada";
+        }
+        if (!data.contains("/")){
+            data = data.substring(0,2) + "/" + data.substring(2,4) + "/" + data.substring(4,8);
+        }
+        SimpleDateFormat formato = new SimpleDateFormat(format);
+        try {
+            return formato.format(formato.parse(data));
+
+        }catch (ParseException e){
+            System.out.println("Falha na formatacao");
+            return data;
+        }
+    }
+    public static String dataToStringFormat(LocalDateTime Date, String format){
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(format);
+        return Date.format(dateTimeFormatter);
+    }
+    public static String dataToStringFormat(Instant Date, String format){
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(format);
+        return dateTimeFormatter.format(Date);
+    }
+    public static String dataToStringFormat(LocalDate Date, String format){
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(format);
+        return Date.format(dateTimeFormatter);
+    }
+
+    public static String mes(int numeroMes) {
+        String mesPalavra;
+        switch (numeroMes) {
+            case 1: {
+                mesPalavra = "Janeiro";
+                break;
+            }
+            case 2: {
+                mesPalavra = "Fevereiro";
+                break;
+            }
+            case 3: {
+                mesPalavra = "Março";
+                break;
+            }
+            case 4: {
+                mesPalavra = "Abril";
+                break;
+            }
+            case 5: {
+                mesPalavra = "Maio";
+                break;
+            }
+            case 6: {
+                mesPalavra = "Junho";
+                break;
+            }
+            case 7: {
+                mesPalavra = "Julho";
+                break;
+            }
+            case 8: {
+                mesPalavra = "Agosto";
+                break;
+            }
+            case 9: {
+                mesPalavra = "Setembro";
+                break;
+            }
+            case 10: {
+                mesPalavra = "Outubro";
+                break;
+            }
+            case 11: {
+                mesPalavra = "Novembro";
+                break;
+            }
+            case 12: {
+                mesPalavra = "Dezembro";
+                break;
+            }
+            default:
+                mesPalavra = "Desconhecido..";
+        }
+        return mesPalavra;
+    }
+
+    public static String duracao(LocalDateTime Data, LocalDateTime Data2){
+        return Duration.between(Data,Data2).toString();
+    }
+    public static Long duracao(LocalDateTime Data, LocalDateTime Data2, String TypeReturn){
+        switch (TypeReturn.toLowerCase()){
+            case "d":{
+                return Duration.between(Data,Data2).toDays();
+            }
+            case "h":{
+                return Duration.between(Data,Data2).toHours();
+            }
+            case "ms":{
+                return Duration.between(Data,Data2).toMillis();
+            }
+            case "m":{
+                return Duration.between(Data,Data2).toMinutes();
+            }
+            case "n":{
+                return Duration.between(Data,Data2).toNanos();
+            }
+        }
+        System.out.println("Tipo Desconhecido!");
+        return 0L;
+    }
+    public static String duracao(LocalDateTime Data, Instant Data2){
+        return Duration.between(Data,Data2).toString();
+    }
+    public static Long duracao(LocalDateTime Data, Instant Data2, String TypeReturn){
+        switch (TypeReturn.toLowerCase()){
+            case "d":{
+                return Duration.between(Data,Data2).toDays();
+            }
+            case "h":{
+                return Duration.between(Data,Data2).toHours();
+            }
+            case "ms":{
+                return Duration.between(Data,Data2).toMillis();
+            }
+            case "m":{
+                return Duration.between(Data,Data2).toMinutes();
+            }
+            case "n":{
+                return Duration.between(Data,Data2).toNanos();
+            }
+        }
+        System.out.println("Tipo Desconhecido!");
+        return 0L;
+    }
+    public static String duracao(LocalDateTime Data, LocalDate Data2){
+        return Duration.between(Data,Data2).toString();
+    }
+    public static Long duracao(LocalDateTime Data, LocalDate Data2, String TypeReturn){
+        switch (TypeReturn.toLowerCase()){
+            case "d":{
+                return Duration.between(Data,Data2).toDays();
+            }
+            case "h":{
+                return Duration.between(Data,Data2).toHours();
+            }
+            case "ms":{
+                return Duration.between(Data,Data2).toMillis();
+            }
+            case "m":{
+                return Duration.between(Data,Data2).toMinutes();
+            }
+            case "n":{
+                return Duration.between(Data,Data2).toNanos();
+            }
+        }
+        System.out.println("Tipo Desconhecido!");
+        return 0L;
+    }
+    public static String duracao(Instant Data, LocalDateTime Data2){
+        return Duration.between(Data,Data2).toString();
+    }
+    public static Long duracao(Instant Data, LocalDateTime Data2, String TypeReturn){
+        switch (TypeReturn.toLowerCase()){
+            case "d":{
+                return Duration.between(Data,Data2).toDays();
+            }
+            case "h":{
+                return Duration.between(Data,Data2).toHours();
+            }
+            case "ms":{
+                return Duration.between(Data,Data2).toMillis();
+            }
+            case "m":{
+                return Duration.between(Data,Data2).toMinutes();
+            }
+            case "n":{
+                return Duration.between(Data,Data2).toNanos();
+            }
+        }
+        System.out.println("Tipo Desconhecido!");
+        return 0L;
+    }
+    public static String duracao(LocalDate Data, LocalDateTime Data2){
+        return Duration.between(Data,Data2).toString();
+    }
+    public static Long duracao(LocalDate Data, LocalDateTime Data2, String TypeReturn){
+        switch (TypeReturn.toLowerCase()){
+            case "d":{
+                return Duration.between(Data,Data2).toDays();
+            }
+            case "h":{
+                return Duration.between(Data,Data2).toHours();
+            }
+            case "ms":{
+                return Duration.between(Data,Data2).toMillis();
+            }
+            case "m":{
+                return Duration.between(Data,Data2).toMinutes();
+            }
+            case "n":{
+                return Duration.between(Data,Data2).toNanos();
+            }
+        }
+        System.out.println("Tipo Desconhecido!");
+        return 0L;
+    }
+    public static String duracao(Instant Data, LocalDate Data2){
+        return Duration.between(Data,Data2).toString();
+    }
+    public static Long duracao(Instant Data, LocalDate Data2, String TypeReturn){
+        switch (TypeReturn.toLowerCase()){
+            case "d":{
+                return Duration.between(Data,Data2).toDays();
+            }
+            case "h":{
+                return Duration.between(Data,Data2).toHours();
+            }
+            case "ms":{
+                return Duration.between(Data,Data2).toMillis();
+            }
+            case "m":{
+                return Duration.between(Data,Data2).toMinutes();
+            }
+            case "n":{
+                return Duration.between(Data,Data2).toNanos();
+            }
+        }
+        System.out.println("Tipo Desconhecido!");
+        return 0L;
+    }
+    public static String duracao(LocalDate Data, Instant Data2){
+        return Duration.between(Data,Data2).toString();
+    }
+    public static Long duracao(LocalDate Data, Instant Data2, String TypeReturn){
+        switch (TypeReturn.toLowerCase()){
+            case "d":{
+                return Duration.between(Data,Data2).toDays();
+            }
+            case "h":{
+                return Duration.between(Data,Data2).toHours();
+            }
+            case "ms":{
+                return Duration.between(Data,Data2).toMillis();
+            }
+            case "m":{
+                return Duration.between(Data,Data2).toMinutes();
+            }
+            case "n":{
+                return Duration.between(Data,Data2).toNanos();
+            }
+        }
+        System.out.println("Tipo Desconhecido!");
+        return 0L;
+    }
+
 
     public static void printTimes(String texto, int vezes){
         for (int i = 0; i < vezes; i++) {
@@ -349,6 +572,12 @@ public class Funcoes {
         return resultado;
     }
 
+
+    public static int countCurrentPath(){
+        if (contentSeparation(System.getProperty("user.dir"),"/").get(0).equals("home")) {
+            return contentSeparation(System.getProperty("user.dir"), "/").size() - 2;
+        }return contentSeparation(System.getProperty("user.dir"), "/").size();
+    }
     public static boolean existFile(String file){
         File f = new File(file);
         if (!f.isFile()) {
@@ -498,27 +727,6 @@ public class Funcoes {
         }
     }
 
-    public static String dataAtual(String format){
-        SimpleDateFormat formato = new SimpleDateFormat(format);
-        Date data = new Date();
-      return formato.format(data);
-    };
-    public static String dataFormat(String data, String format){
-        if (data.isEmpty()){
-            return "Data nao informada";
-        }
-        if (!data.contains("/")){
-            data = data.substring(0,2) + "/" + data.substring(2,4) + "/" + data.substring(4,8);
-        }
-        SimpleDateFormat formato = new SimpleDateFormat(format);
-        try {
-            return formato.format(formato.parse(data));
-
-        }catch (ParseException e){
-            System.out.println("Falha na conversão para data");
-            return data;
-        }
-    }
 
     public static ArrayList<String> contentSeparation(String texto, String delimitador){
         Scanner scanner = new Scanner(texto);
@@ -549,117 +757,6 @@ public class Funcoes {
         }
         return arrayList;
     }
-    public static Connection postgressConnect(String url, String user, String password){
-        if(!checkDirectory(path)){
-            createDirectory(path);
-        }
-        if(reWriteStringConnectionPG) {
-            reWriteFile(path + "/connection.txt", url + "\n" + user + "\n" + password);
-        }
-        try {
-            Connection connection = DriverManager.getConnection(url,user,password);
-            if (showInfo) {
-                System.out.println("Conexão realizada: " + connection);
-                System.out.println();
-            }
-            return connection;
-        } catch (SQLException e){
-            System.out.println(e.getMessage());
-        }
-        return null;
-    }
-    public static Connection postgressConnect(String url){
-        try {
-            if (!existFile(path + "/connection.txt")){
-                return null;
-            }
-            String result = readFile(path + "/connection.txt");
-            Connection connection = DriverManager.getConnection(url,contentSeparation(result,"\n").get(1), contentSeparation(result,"\n").get(2));
-            if (showInfo) {
-                System.out.println("Conexão realizada: " + connection);
-                System.out.println();
-            }
-            return connection;
-        } catch (SQLException e){
-            System.out.println(e.getMessage());
-        }
-        return null;
-    }
-    public static Connection postgressConnectionFactory(){
-        try {
-            if (!existFile(path + "/connection.txt")){
-                return null;
-            }
-            String result = readFile(path + "/connection.txt");
-            Connection connection = DriverManager.getConnection(contentSeparation(result,"\n").get(0),contentSeparation(result,"\n").get(1), contentSeparation(result,"\n").get(2));
-            if (showInfo) {
-                System.out.println("Conexão realizada: " + connection);
-                System.out.println();
-            }
-            return connection;
-        } catch (SQLException e){
-            System.out.println(e.getMessage());
-        }
-        return null;
-    }
-    public static void postgressDisconnect(Connection connection){
-        try {
-            connection.close();
-            if (showInfo){
-                System.out.println("Conexão Encerrada!");
-                System.out.println();
-            }
-        } catch (SQLException e){
-            System.out.println(e.getMessage());
-        }
-
-    }
-
-    public static Connection postgressConnectPool(String url, String user, String password){
-        if(!checkDirectory(path)){
-            createDirectory(path);
-        }
-        if(reWriteStringConnectionPG) {
-            reWriteFile(path + "/connection.txt", url + "\n" + user + "\n" + password);
-        }
-        try {
-            PGConnectionPoolDataSource connection = new PGConnectionPoolDataSource();
-            connection.setURL(url);
-            connection.setUser(user);
-            connection.setPassword(password);
-            Connection connection1 = connection.getConnection();
-            if (showInfo) {
-                System.out.println("Conexão realizada: " + connection1);
-                System.out.println();
-            }
-            return connection1;
-        } catch (SQLException e){
-            System.out.println(e.getMessage());
-        }
-        return null;
-    }
-    public static Connection postgressConnectionFactoryPool(){
-        try {
-            if (!existFile(path + "/connection.txt")){
-                return null;
-            }
-            String result = readFile(path + "/connection.txt");
-            PGConnectionPoolDataSource pgConnectionPoolDataSource = new PGConnectionPoolDataSource();
-            pgConnectionPoolDataSource.setURL(contentSeparation(result,"\n").get(0));
-            pgConnectionPoolDataSource.setUser(contentSeparation(result,"\n").get(1));
-            pgConnectionPoolDataSource.setPassword(contentSeparation(result,"\n").get(2));
-            Connection connection = pgConnectionPoolDataSource.getConnection();
-            if (showInfo) {
-                System.out.println("Conexão realizada: " + connection);
-                System.out.println();
-            }
-            return connection;
-        } catch (SQLException e){
-            System.out.println(e.getMessage());
-        }
-        return null;
-    }
-
     public static boolean checkDirectory(String directory){
         File theDir = new File(directory);
         if (!theDir.exists()){
@@ -672,5 +769,56 @@ public class Funcoes {
         if (!theDir.exists()){
             theDir.mkdir();
         }
+    }
+
+    public static String stringToHtml(String s) {
+        StringBuilder out = new StringBuilder(Math.max(16, s.length()));
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
+            if (c > 127 || c == '"' || c == '\'' || c == '<' || c == '>' || c == '&') {
+                out.append("&#");
+                out.append((int) c);
+                out.append(';');
+            } else {
+                out.append(c);
+            }
+        }
+        return out.toString();
+    }
+
+    public static List<Integer> hexToRgb(String hexColor){
+        int r = Integer.valueOf(hexColor.substring(1, 3), 16);
+        int g = Integer.valueOf(hexColor.substring(3, 5), 16);
+        int b = Integer.valueOf(hexColor.substring(5, 7), 16);
+        List<Integer> list = new ArrayList<>();
+        list.add(r);
+        list.add(g);
+        list.add(b);
+        return list;
+    }
+
+    public static String rgbToHex(int red, int green, int blue){
+        return String.format("#%02x%02x%02x", red, green, blue);
+    }
+
+    public static void printWeb(String texto, PrintWriter printWriter){
+        PrintWriter saida = printWriter;
+        ArrayList<String> particao = contentSeparation(texto,"\n");
+        particao.forEach(s -> saida.println(s + "<br>"));
+    }
+
+    public static int randomNumber(int min, int max) {
+        return (int)Math.floor(Math.random()*(max-min+1)+min);
+    }
+
+    public static double randomNumber(double min, double max) {
+        return Math.floor(Math.random()*(max-min+1)+min);
+    }
+
+    public static String intToString(int numero) {
+        return String.valueOf(numero);
+    }
+    public static String doubleToString(double numero) {
+        return String.valueOf(numero);
     }
 }

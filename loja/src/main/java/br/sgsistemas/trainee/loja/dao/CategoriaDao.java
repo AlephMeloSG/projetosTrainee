@@ -1,26 +1,28 @@
 package br.sgsistemas.trainee.loja.dao;
 
-import br.sgsistemas.trainee.loja.modelo.Categoria;
-
 import javax.persistence.EntityManager;
 
+import br.sgsistemas.trainee.loja.modelo.Categoria;
+
 public class CategoriaDao {
-    private EntityManager entityManager;
-    public CategoriaDao(EntityManager entityManager) {
-        this.entityManager = entityManager;
-    }
+	
+	private EntityManager em;
 
-    public void cadastrar(Categoria categoria){
-        this.entityManager.persist(categoria);
-    }
-
-    public Categoria atualizar(Categoria categoria) {
-        this.entityManager.merge(categoria);
-        return categoria;
-    }
-
-    public void remover(Categoria categoria){
-        this.entityManager.remove(atualizar(categoria));
-    }
+	public CategoriaDao(EntityManager em) {
+		this.em = em;
+	}
+	
+	public void cadastrar(Categoria categoria) {
+		this.em.persist(categoria);
+	}
+	
+	public void atualizar(Categoria categoria) {
+		this.em.merge(categoria);
+	}
+	
+	public void remover(Categoria categoria) {
+		categoria = em.merge(categoria);
+		this.em.remove(categoria);
+	}
 
 }

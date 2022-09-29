@@ -9,7 +9,7 @@ import java.sql.SQLException;
 
 public class TestaListagemParametro2 {
     public static void main(String[] args) throws SQLException {
-        Connection con = Funcoes.postgressConnectionFactory();
+        Connection con = Funcoes.postgressDriverConnectionFactory();
         PreparedStatement preparedStatement = con.prepareStatement("select id, nome, descricao from produto where id != ?");
         preparedStatement.setInt(1,1);
         preparedStatement.execute();

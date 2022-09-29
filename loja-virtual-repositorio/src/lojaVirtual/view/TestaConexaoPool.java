@@ -14,7 +14,7 @@ public class TestaConexaoPool {
         connection.close();
 
         Funcoes.showInfo = true;
-        connection = Funcoes.postgressConnectionFactoryPool();
-        Funcoes.postgressDisconnect(connection);
+        connection = Funcoes.postgressDriverConnectionFactoryPool();
+        Funcoes.postgressDriverDisconnect(connection);
     }
 }
