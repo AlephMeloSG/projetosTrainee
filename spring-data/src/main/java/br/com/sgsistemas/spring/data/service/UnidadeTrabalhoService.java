@@ -26,7 +26,7 @@ public class UnidadeTrabalhoService {
             System.out.println("1.Voltar");
             System.out.println("2.Criar");
             System.out.println("3.Atualizar");
-            System.out.println("4.Deletar Cargo");
+            System.out.println("4.Deletar "+model);
             System.out.println("5.Deletar Todos");
             System.out.println("6.Visualizar");
             int acao = Funcoes.inputInt("Digite o numero correspondente: ", 1, 6);

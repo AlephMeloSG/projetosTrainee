@@ -1,6 +1,7 @@
 package br.com.sgsistemas.spring.data.model;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "unidade_trabalho")
@@ -10,6 +11,8 @@ public class UnidadeTrabalho {
     private Integer id;
     private String descricao;
     private String endereco;
+    @ManyToMany(mappedBy = "unidadeTrabalhos", fetch = FetchType.EAGER)
+    private List<Funcionario> funcionarios;
 
     public UnidadeTrabalho(String descricao, String endereco) {
         this.descricao = descricao;
@@ -40,10 +43,6 @@ public class UnidadeTrabalho {
 
     @Override
     public String toString() {
-        return "UnidadeTrabalho{" +
-                "id=" + id +
-                ", descricao='" + descricao + '\'' +
-                ", endereco='" + endereco + '\'' +
-                '}';
+        return "\n" + "id: " + id + " descricao: " + descricao + " endereco: " + endereco + '\n';
     }
 }

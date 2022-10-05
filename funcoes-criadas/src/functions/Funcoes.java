@@ -28,9 +28,7 @@ import java.util.Scanner;
 
 public class Funcoes {
     public static boolean showInfo = false;
-    public static boolean reWriteStringConnectionPG = true;
     public static String path = repeatString("../",countCurrentPath()) + "configFuncoes";
-
     public static void delay(int milliseconds) {
         Date start = new Date();
         long startLong = start.getTime();
@@ -800,11 +798,17 @@ public class Funcoes {
     public static String rgbToHex(int red, int green, int blue){
         return String.format("#%02x%02x%02x", red, green, blue);
     }
+    public static String argbToHex(int alpha, int red, int green, int blue){
+        return String.format("%02x%02x%02x%02x",(int)(alpha * 2.55555), red, green, blue);
+    }
 
-    public static void printWeb(String texto, PrintWriter printWriter){
-        PrintWriter saida = printWriter;
+    public static String breaklineToBr(String texto){
+        String result = "";
         ArrayList<String> particao = contentSeparation(texto,"\n");
-        particao.forEach(s -> saida.println(s + "<br>"));
+        for (String s : particao) {
+            result += s + "<br>";
+        }
+        return result;
     }
 
     public static int randomNumber(int min, int max) {

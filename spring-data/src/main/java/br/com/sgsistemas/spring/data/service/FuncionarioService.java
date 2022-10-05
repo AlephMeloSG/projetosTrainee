@@ -1,22 +1,30 @@
 package br.com.sgsistemas.spring.data.service;
 
-import br.com.sgsistemas.spring.data.model.Cargo;
 import br.com.sgsistemas.spring.data.model.Funcionario;
+import br.com.sgsistemas.spring.data.model.UnidadeTrabalho;
 import br.com.sgsistemas.spring.data.repository.CargoRepository;
 import br.com.sgsistemas.spring.data.repository.FuncionarioRepository;
+import br.com.sgsistemas.spring.data.repository.UnidadeTrabalhoRepository;
 import functions.Funcoes;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class FuncionarioService {
     private final FuncionarioRepository funcionarioRepository;
+    private final UnidadeTrabalhoRepository unidadeTrabalhoRepository;
+    private final CargoRepository cargoRepository;
     private Funcionario funcionario;
     private String model = "Funcionario";
 
-    public FuncionarioService(FuncionarioRepository funcionarioRepository) {
+    public FuncionarioService(FuncionarioRepository funcionarioRepository, UnidadeTrabalhoRepository unidadeTrabalhoRepository, CargoRepository cargoRepository) {
         this.funcionarioRepository = funcionarioRepository;
+        this.unidadeTrabalhoRepository = unidadeTrabalhoRepository;
+        this.cargoRepository = cargoRepository;
     }
 
     public void inicial() {
@@ -26,7 +34,7 @@ public class FuncionarioService {
             System.out.println("1.Voltar");
             System.out.println("2.Criar");
             System.out.println("3.Atualizar");
-            System.out.println("4.Deletar Cargo");
+            System.out.println("4.Deletar "+model);
             System.out.println("5.Deletar Todos");
             System.out.println("6.Visualizar");
             int acao = Funcoes.inputInt("Digite o numero correspondente: ", 1, 6);
@@ -69,7 +77,10 @@ public class FuncionarioService {
         String cpf = Funcoes.inputStr("CPF: ");
         Integer salario = Funcoes.inputInt("Salario: ",1);
         LocalDate localDate = Funcoes.inputLocalDate("Data de contratacao:");
+        int cargoId = Funcoes.inputInt("Digite o id do Cargo: ");
         funcionario = new Funcionario(nome,cpf,salario,localDate);
+        funcionario.setCargo(cargoRepository.findById(cargoId).get());
+        funcionario.setUnidadeTrabalhos(unidade());
         funcionarioRepository.save(funcionario);
     }
 
@@ -80,8 +91,11 @@ public class FuncionarioService {
         String cpf = Funcoes.inputStr("CPF: ");
         Integer salario = Funcoes.inputInt("Salario: ",1);
         LocalDate localDate = Funcoes.inputLocalDate("Data de contratacao:");
+        int cargoId = Funcoes.inputInt("Digite o id do Cargo: ");
         funcionario = new Funcionario(nome,cpf,salario,localDate);
         funcionario.setId(id);
+        funcionario.setCargo(cargoRepository.findById(cargoId).get());
+        funcionario.setUnidadeTrabalhos(unidade());
         funcionarioRepository.save(funcionario);
         System.out.println(model+" Atualizado!");
     }
@@ -103,5 +117,51 @@ public class FuncionarioService {
         for (Funcionario funcionario1 : funcionarios) {
             System.out.println(funcionario1);
         }
+    }
+
+    private List<UnidadeTrabalho> unidade(){
+        boolean system = true;
+        List<UnidadeTrabalho> unidadeTrabalhos = new ArrayList<>();
+
+        while (system){
+            System.out.println();
+            System.out.println("Unidade de trabalhos");
+            System.out.println("Digite o numero da acao:");
+            System.out.println("1.Adicionar");
+            System.out.println("2.Remover");
+            System.out.println("3.Visualizar Unidades");
+            System.out.println("4.Visualizar Unidades Adicionadas");
+            System.out.println("5.Voltar");
+            int acao = Funcoes.inputInt("Numero Correspondente: ",1,5);
+            System.out.println();
+            if (acao==5){
+                system = false;
+            }else {
+                switch (acao) {
+                    case 1:{
+                        int id = Funcoes.inputInt("Digite o id da Unidade de Trabalho: ");
+                        Optional<UnidadeTrabalho> unidade = unidadeTrabalhoRepository.findById(id);
+                        unidadeTrabalhos.add(unidade.get());
+                        break;
+                    }case 2:{
+                        int id = Funcoes.inputInt("Digite o id da Unidade de Trabalho: ");
+                        Optional<UnidadeTrabalho> unidade = unidadeTrabalhoRepository.findById(id);
+                        unidadeTrabalhos.remove(unidade.get());
+                        break;
+                    }case 3:{
+                        for (UnidadeTrabalho unidadeTrabalho : unidadeTrabalhoRepository.findAll()) {
+                            System.out.println(unidadeTrabalho);
+                        }
+                        break;
+                    }case 4:{
+                        for (UnidadeTrabalho unidadeTrabalho : unidadeTrabalhos) {
+                            System.out.println(unidadeTrabalho);
+                        }
+                        break;
+                    }
+                }
+            }
+        }
+        return unidadeTrabalhos;
     }
 }

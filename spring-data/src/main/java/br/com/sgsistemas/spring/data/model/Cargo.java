@@ -1,6 +1,7 @@
 package br.com.sgsistemas.spring.data.model;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "cargos")
@@ -9,7 +10,8 @@ public class Cargo {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String descricao;
-
+    @OneToMany(mappedBy = "cargo")
+    private List<Funcionario> funcionarios;
 
     public Integer getId() {
         return id;
@@ -27,6 +29,6 @@ public class Cargo {
 
     @Override
     public String toString() {
-        return "\nid: " + id + " descricao: " + descricao + '\n';
+        return "id: " + id + " descricao: " + descricao;
     }
 }

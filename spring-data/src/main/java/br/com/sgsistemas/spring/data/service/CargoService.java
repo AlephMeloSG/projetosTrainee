@@ -3,12 +3,16 @@ package br.com.sgsistemas.spring.data.service;
 import br.com.sgsistemas.spring.data.model.Cargo;
 import br.com.sgsistemas.spring.data.repository.CargoRepository;
 import functions.Funcoes;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 @Service
 public class CargoService {
     private final CargoRepository cargoRepository;
-    private Cargo cargo = new Cargo();
+    private Cargo cargo;
     private String descricao;
 
     public CargoService(CargoRepository cargoRepository) {
@@ -60,8 +64,9 @@ public class CargoService {
     private void salvar() {
         System.out.println("Descricao do cargo");
         this.descricao = Funcoes.inputStr("Descricao: ");
-        this.cargo.setDescricao(descricao);
-        this.cargoRepository.save(cargo);
+        cargo = new Cargo();
+        cargo.setDescricao(descricao);
+        cargoRepository.save(cargo);
         System.out.println("Cargo Salvo: " + descricao);
     }
 
@@ -69,6 +74,7 @@ public class CargoService {
         System.out.println("Digite a id do Cargo Desejado para atualizar");
         int id = Funcoes.inputInt("Id do Cargo: ");
         this.descricao = Funcoes.inputStr("Descricao: ");
+        cargo = new Cargo();
         this.cargo.setId(id);
         this.cargo.setDescricao(descricao);
         this.cargoRepository.save(cargo);
@@ -89,10 +95,17 @@ public class CargoService {
     }
 
     private void visualizar(){
-        System.out.println("Cargos: ");
-        Iterable<Cargo> cargos = cargoRepository.findAll();
+        Pageable pageable = PageRequest.of(0,100, Sort.unsorted());
+        Page<Cargo> cargos = cargoRepository.findAll(pageable);
+        System.out.println("Cargos pag.0/" + cargos.getTotalPages());
+        int pagina = Funcoes.inputInt("Digite o numero da pagina: ") - 1;
+        pageable = PageRequest.of(pagina,100,Sort.unsorted());
+        cargos = cargoRepository.findAll(pageable);
+        System.out.println("Pagina: " + pagina + " Total de cargos: " + cargos.getNumber());
+        System.out.println();
         for (Cargo cargo1 : cargos) {
             System.out.println(cargo1);
         }
+        System.out.println();
     }
 }
