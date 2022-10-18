@@ -1,7 +1,5 @@
 package br.com.sgsistemas.java.trainee.testeAbrirArquivo.main;
 
-import functions.Funcoes;
-
 import java.util.ArrayList;
 
 public class TesteArquivo {

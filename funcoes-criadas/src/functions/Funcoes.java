@@ -20,11 +20,7 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.InputMismatchException;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class Funcoes {
     public static boolean showInfo = false;
@@ -800,6 +796,9 @@ public class Funcoes {
     }
     public static String argbToHex(int alpha, int red, int green, int blue){
         return String.format("%02x%02x%02x%02x",(int)(alpha * 2.55555), red, green, blue);
+    }
+    public static String rgbaToHex(int alpha, int red, int green, int blue){
+        return String.format("%02x%02x%02x%02x", red, green, blue, (int)(alpha * 2.55555));
     }
 
     public static String breaklineToBr(String texto){

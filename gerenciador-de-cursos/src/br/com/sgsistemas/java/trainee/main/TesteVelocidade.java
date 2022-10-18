@@ -1,7 +1,5 @@
 package br.com.sgsistemas.java.trainee.main;
 
-import functions.Funcoes;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
